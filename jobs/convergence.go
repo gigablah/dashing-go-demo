@@ -1,0 +1,40 @@
+package jobs
+
+import (
+    "time"
+    "math/rand"
+    "github.com/gigablah/dashing-go"
+)
+
+type Convergence struct{
+    points []map[string]int
+}
+
+func (j *Convergence) Work(send chan *dashing.Message) {
+    ticker := time.NewTicker(1 * time.Second)
+    for {
+        select {
+        case <- ticker.C:
+            j.points = j.points[1:]
+            j.points = append(j.points, map[string]int{
+                "x": j.points[len(j.points)-1]["x"] + 1,
+                "y": rand.Intn(50),
+            })
+            send <- &dashing.Message{map[string]interface{}{
+                "id": "convergence",
+                "points": j.points,
+            }}
+        }
+    }
+}
+
+func init() {
+    c := &Convergence{}
+    for i := 0; i < 10; i++ {
+        c.points = append(c.points, map[string]int{
+            "x": i,
+            "y": rand.Intn(50),
+        })
+    }
+    dashing.Register(c)
+}
