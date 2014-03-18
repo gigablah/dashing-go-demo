@@ -8,7 +8,7 @@ import (
 
 type Sample struct{}
 
-func (j *Sample) Work(send chan *dashing.Message) {
+func (j *Sample) Work(send chan *dashing.Event) {
     ticker := time.NewTicker(1 * time.Second)
     var lastValuation, lastKarma, currentValuation, currentKarma int
     for {
@@ -16,20 +16,17 @@ func (j *Sample) Work(send chan *dashing.Message) {
         case <- ticker.C:
             lastValuation, currentValuation = currentValuation, rand.Intn(100)
             lastKarma, currentKarma = currentKarma, rand.Intn(200000)
-            send <- &dashing.Message{map[string]interface{}{
-                "id": "valuation",
+            send <- &dashing.Event{"valuation", map[string]interface{}{
                 "current": currentValuation,
                 "last": lastValuation,
-            }}
-            send <- &dashing.Message{map[string]interface{}{
-                "id": "karma",
+            }, ""}
+            send <- &dashing.Event{"karma", map[string]interface{}{
                 "current": currentKarma,
                 "last": lastKarma,
-            }}
-            send <- &dashing.Message{map[string]interface{}{
-                "id": "synergy",
+            }, ""}
+            send <- &dashing.Event{"synergy", map[string]interface{}{
                 "value": rand.Intn(100),
-            }}
+            }, ""}
         }
     }
 }

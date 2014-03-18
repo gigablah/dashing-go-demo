@@ -10,7 +10,7 @@ type Convergence struct{
     points []map[string]int
 }
 
-func (j *Convergence) Work(send chan *dashing.Message) {
+func (j *Convergence) Work(send chan *dashing.Event) {
     ticker := time.NewTicker(1 * time.Second)
     for {
         select {
@@ -20,10 +20,9 @@ func (j *Convergence) Work(send chan *dashing.Message) {
                 "x": j.points[len(j.points)-1]["x"] + 1,
                 "y": rand.Intn(50),
             })
-            send <- &dashing.Message{map[string]interface{}{
-                "id": "convergence",
+            send <- &dashing.Event{"convergence", map[string]interface{}{
                 "points": j.points,
-            }}
+            }, ""}
         }
     }
 }

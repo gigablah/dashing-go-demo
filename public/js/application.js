@@ -15001,7 +15001,7 @@ var prepareString = "a"[0] != "a",
 
   Dashing.debugMode = true;
 
-  source = new EventSource('http://10.0.0.3:3000/events');
+  source = new EventSource('/events');
 
   source.addEventListener('open', function(e) {
     return console.log("Connection opened", e);
@@ -15020,7 +15020,7 @@ var prepareString = "a"[0] != "a",
   source.addEventListener('message', function(e) {
     var data, widget, _i, _len, _ref1, _ref2, _ref3, _results;
     data = JSON.parse(e.data);
-    if (((_ref1 = lastEvents[data.id]) != null ? _ref1.updatedAt : void 0) !== data.updatedAt || true) {
+    if (((_ref1 = lastEvents[data.id]) != null ? _ref1.updatedAt : void 0) !== data.updatedAt) {
       if (Dashing.debugMode) {
         console.log("Received data for " + data.id, data);
       }

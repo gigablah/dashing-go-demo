@@ -10,7 +10,7 @@ type Buzzwords struct{
     words []map[string]interface{}
 }
 
-func (j *Buzzwords) Work(send chan *dashing.Message) {
+func (j *Buzzwords) Work(send chan *dashing.Event) {
     ticker := time.NewTicker(1 * time.Second)
     for {
         select {
@@ -21,24 +21,23 @@ func (j *Buzzwords) Work(send chan *dashing.Message) {
                     j.words[i]["value"] = (value + 1) % 30
                 }
             }
-            send <- &dashing.Message{map[string]interface{}{
-                "id": "buzzwords",
+            send <- &dashing.Event{"buzzwords", map[string]interface{}{
                 "items": j.words,
-            }}
+            }, ""}
         }
     }
 }
 
 func init() {
     dashing.Register(&Buzzwords{[]map[string]interface{}{
-        map[string]interface{}{"label": "Paradigm shift", "value": 0},
-        map[string]interface{}{"label": "Leverage", "value": 0},
-        map[string]interface{}{"label": "Pivoting", "value": 0},
-        map[string]interface{}{"label": "Turn-key", "value": 0},
-        map[string]interface{}{"label": "Streamlininess", "value": 0},
-        map[string]interface{}{"label": "Exit strategy", "value": 0},
-        map[string]interface{}{"label": "Synergy", "value": 0},
-        map[string]interface{}{"label": "Enterprise", "value": 0},
-        map[string]interface{}{"label": "Web 2.0", "value": 0},
+        {"label": "Paradigm shift", "value": 0},
+        {"label": "Leverage", "value": 0},
+        {"label": "Pivoting", "value": 0},
+        {"label": "Turn-key", "value": 0},
+        {"label": "Streamlininess", "value": 0},
+        {"label": "Exit strategy", "value": 0},
+        {"label": "Synergy", "value": 0},
+        {"label": "Enterprise", "value": 0},
+        {"label": "Web 2.0", "value": 0},
     }})
 }
