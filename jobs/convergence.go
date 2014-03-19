@@ -3,14 +3,15 @@ package jobs
 import (
     "time"
     "math/rand"
+
     "github.com/gigablah/dashing-go"
 )
 
-type Convergence struct{
+type convergence struct{
     points []map[string]int
 }
 
-func (j *Convergence) Work(send chan *dashing.Event) {
+func (j *convergence) Work(send chan *dashing.Event) {
     ticker := time.NewTicker(1 * time.Second)
     for {
         select {
@@ -28,7 +29,7 @@ func (j *Convergence) Work(send chan *dashing.Event) {
 }
 
 func init() {
-    c := &Convergence{}
+    c := &convergence{}
     for i := 0; i < 10; i++ {
         c.points = append(c.points, map[string]int{
             "x": i,

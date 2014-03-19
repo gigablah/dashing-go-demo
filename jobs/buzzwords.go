@@ -3,14 +3,15 @@ package jobs
 import (
     "time"
     "math/rand"
+
     "github.com/gigablah/dashing-go"
 )
 
-type Buzzwords struct{
+type buzzwords struct{
     words []map[string]interface{}
 }
 
-func (j *Buzzwords) Work(send chan *dashing.Event) {
+func (j *buzzwords) Work(send chan *dashing.Event) {
     ticker := time.NewTicker(1 * time.Second)
     for {
         select {
@@ -29,7 +30,7 @@ func (j *Buzzwords) Work(send chan *dashing.Event) {
 }
 
 func init() {
-    dashing.Register(&Buzzwords{[]map[string]interface{}{
+    dashing.Register(&buzzwords{[]map[string]interface{} {
         {"label": "Paradigm shift", "value": 0},
         {"label": "Leverage", "value": 0},
         {"label": "Pivoting", "value": 0},

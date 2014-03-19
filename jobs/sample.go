@@ -3,12 +3,13 @@ package jobs
 import (
     "time"
     "math/rand"
+
     "github.com/gigablah/dashing-go"
 )
 
-type Sample struct{}
+type sample struct{}
 
-func (j *Sample) Work(send chan *dashing.Event) {
+func (j *sample) Work(send chan *dashing.Event) {
     ticker := time.NewTicker(1 * time.Second)
     var lastValuation, lastKarma, currentValuation, currentKarma int
     for {
@@ -32,5 +33,5 @@ func (j *Sample) Work(send chan *dashing.Event) {
 }
 
 func init() {
-    dashing.Register(&Sample{})
+    dashing.Register(&sample{})
 }
